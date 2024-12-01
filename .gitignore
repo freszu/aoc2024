@@ -4,3 +4,4 @@
 build
 src/**/*.txt
 local.properties
+!Day*_test*.txt
