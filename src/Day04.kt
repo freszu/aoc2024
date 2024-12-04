@@ -24,10 +24,10 @@ fun main() {
             Direction.diagonals.mapNotNull {
                 val walk = matrix.walk(Position(x, y), it)
                     .takeWhileIndexed { i, (_, char) -> char == keyword.getOrNull(i) }
+                    .toList()
 
-                val walkLength = walk.count()
-                if (walk.count() == keyword.length) {
-                    val (middlePosition, _) = walk.elementAt(walkLength / 2)
+                if (walk.size == keyword.length) {
+                    val (middlePosition, _) = walk[walk.size / 2]
                     middlePosition
                 } else {
                     null
