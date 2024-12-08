@@ -14,6 +14,17 @@ inline fun <T, R> Matrix<T>.map2dIndexed(transform: (x: Int, y: Int, T) -> R) = 
     rows.mapIndexed { x, t -> transform(x, y, t) }
 }
 
+fun <T, R> Matrix<T>.fold2d(initial: R, operation: (acc: R, x: Int, y: Int, T) -> R): R {
+    var accumulator = initial
+    for (y in indices) {
+        val row = this[y]
+        for (x in row.indices) {
+            accumulator = operation(accumulator, x, y, row[x])
+        }
+    }
+    return accumulator
+}
+
 inline fun <T> Matrix<T>.findFirst(predicate: (T) -> Boolean): Pair<Position, T>? {
     for (y in indices) {
         val row = this[y]
