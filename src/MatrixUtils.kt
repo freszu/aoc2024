@@ -25,6 +25,20 @@ fun <T, R> Matrix<T>.fold2d(initial: R, operation: (acc: R, x: Int, y: Int, T) -
     return accumulator
 }
 
+/**
+ * Left, top, right, bottom
+ *
+ * Von Neumann neighborhood
+ */
+fun <T> Matrix<T>.neighbors(position: Position): Sequence<Position> {
+    val (x, y) = position
+
+    return sequenceOf(
+        Position(x - 1, y), Position(x, y + 1), Position(x + 1, y), Position(x, y - 1)
+    )
+        .filter { getOrNull(it.x, it.y) != null }
+}
+
 inline fun <T> Matrix<T>.findFirst(predicate: (T) -> Boolean): Pair<Position, T>? {
     for (y in indices) {
         val row = this[y]
@@ -69,6 +83,17 @@ fun <T> Matrix<T>.walk(from: Position, direction: Direction): Sequence<Pair<Posi
         yield(Position(x, y) to value)
         x += dx
         y += dy
+    }
+}
+
+fun <T> Matrix<T>.sequence(): Sequence<Pair<Position, T>> {
+    val matrix = this
+    return sequence {
+        matrix.forEachIndexed { y, ts ->
+            ts.forEachIndexed { x, t ->
+                yield(Position(x, y) to t)
+            }
+        }
     }
 }
 
