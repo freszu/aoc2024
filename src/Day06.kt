@@ -7,12 +7,12 @@ import kotlinx.coroutines.runBlocking
 import kotlin.time.measureTime
 
 fun main() {
-    val directions = listOf(Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT)
+    val directions = listOf(Direction8.UP, Direction8.RIGHT, Direction8.DOWN, Direction8.LEFT)
 
     fun Matrix<Char>.patrol(
         startPosition: Position,
-        direction: Direction
-    ): Sequence<Pair<Position, Direction>> = sequence {
+        direction: Direction8
+    ): Sequence<Pair<Position, Direction8>> = sequence {
         val map = this@patrol
         var pos = startPosition
         var dir = direction
@@ -39,7 +39,7 @@ fun main() {
         val map: Matrix<Char> = input.map { it.toCharArray().toList() }
         val (startPos, _) = requireNotNull(map.findFirst { it == '^' })
 
-        return map.patrol(startPos, Direction.UP)
+        return map.patrol(startPos, Direction8.UP)
             .map { (pos, _) -> pos }
             .toSet()
             .count()
@@ -49,14 +49,14 @@ fun main() {
         val map: Matrix<Char> = input.map { it.toCharArray().toList() }
         val (startPos, _) = requireNotNull(map.findFirst { it == '^' })
 
-        return map.patrol(startPos, Direction.UP)
+        return map.patrol(startPos, Direction8.UP)
             .map { (pos, _) -> pos }
             .drop(1)
             .toSet()
             .map { (x, y) ->
                 val mapCopy = map.toMutableMatrix()
                 mapCopy[y][x] = 'O'
-                val isNotLooped = mapCopy.patrol(startPos, Direction.UP)
+                val isNotLooped = mapCopy.patrol(startPos, Direction8.UP)
                     .all(mutableSetOf<Any>()::add)
                 isNotLooped
             }
@@ -71,7 +71,7 @@ fun main() {
 
 
         return runBlocking(Dispatchers.Default) {
-            map.patrol(startPos, Direction.UP)
+            map.patrol(startPos, Direction8.UP)
                 .map { (pos, _) -> pos }
                 .drop(1)
                 .toSet()
@@ -80,7 +80,7 @@ fun main() {
                     suspend {
                         val mapCopy = map.toMutableMatrix()
                         mapCopy[y][x] = 'O'
-                        val isNotLooped = mapCopy.patrol(startPos, Direction.UP)
+                        val isNotLooped = mapCopy.patrol(startPos, Direction8.UP)
                             .all(mutableSetOf<Any>()::add)
                         isNotLooped
                     }

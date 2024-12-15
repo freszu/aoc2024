@@ -4,7 +4,7 @@ fun main() {
         return matrix.map2dIndexed { x, y, char ->
             if (char != keyword.first()) return@map2dIndexed 0
 
-            Direction.entries.map {
+            Direction8.entries.map {
                 val walkLength = matrix.walk(Position(x, y), it)
                     .takeWhileIndexed { i, (_, char) -> keyword.getOrNull(i) == char }
                     .count()
@@ -21,7 +21,7 @@ fun main() {
         val masAPositions = matrix.map2dIndexed { x, y, char ->
             if (char != keyword.first()) return@map2dIndexed emptyList()
 
-            Direction.diagonals.mapNotNull {
+            Direction8.diagonals.mapNotNull {
                 val walk = matrix.walk(Position(x, y), it)
                     .takeWhileIndexed { i, (_, char) -> char == keyword.getOrNull(i) }
                     .toList()
