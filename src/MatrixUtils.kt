@@ -12,7 +12,10 @@ data class Position(val x: Int, val y: Int) {
         Direction4.RIGHT -> Position(x + 1, y)
         Direction4.DOWN -> Position(x, y - 1)
     }
+
+    operator fun plus(position: Position) = Position(x + position.x, y + position.y)
 }
+
 typealias XY = Position
 
 inline fun <T, R> Matrix<T>.map2d(transform: (T) -> R) = this.map { it.map(transform) }
