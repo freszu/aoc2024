@@ -8,9 +8,9 @@ fun <T> Matrix<T>.getOrNull(x: Int, y: Int) = this.getOrNull(y)?.getOrNull(x)
 data class Position(val x: Int, val y: Int) {
     operator fun plus(dir: Direction4) = when (dir) {
         Direction4.LEFT -> Position(x - 1, y)
-        Direction4.UP -> Position(x, y + 1)
+        Direction4.UP -> Position(x, y - 1)
         Direction4.RIGHT -> Position(x + 1, y)
-        Direction4.DOWN -> Position(x, y - 1)
+        Direction4.DOWN -> Position(x, y + 1)
     }
 
     operator fun plus(position: Position) = Position(x + position.x, y + position.y)
@@ -64,7 +64,7 @@ fun Position.neighbors(): Sequence<Position> {
     val (x, y) = this
 
     return sequenceOf(
-        Position(x - 1, y), Position(x, y + 1), Position(x + 1, y), Position(x, y - 1)
+        Position(x - 1, y), Position(x, y - 1), Position(x + 1, y), Position(x, y + 1)
     )
 }
 
@@ -73,9 +73,9 @@ fun Position.neighborsWithDir(): Sequence<Pair<Position, Direction4>> {
 
     return sequenceOf(
         Position(x - 1, y) to Direction4.LEFT,
-        Position(x, y + 1) to Direction4.UP,
+        Position(x, y - 1) to Direction4.UP,
         Position(x + 1, y) to Direction4.RIGHT,
-        Position(x, y - 1) to Direction4.DOWN
+        Position(x, y + 1) to Direction4.DOWN
     )
 }
 
