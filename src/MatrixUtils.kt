@@ -122,7 +122,9 @@ enum class Direction4 {
     /**
      * Rotate clockwise
      */
-    fun next() = entries[(ordinal + 1) % entries.size]
+    fun next() = entries[(ordinal + 1).mod(entries.size)]
+
+    fun previous() = entries[(ordinal - 1).mod(entries.size)]
 
     companion object {
         fun toDirection8(direction4: Direction4): Direction8 = when (direction4) {
