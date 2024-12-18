@@ -3,6 +3,10 @@ typealias MutableMatrix<T> = MutableList<MutableList<T>>
 
 fun <T> Matrix<T>.nicePrint() = joinToString("\n")
 operator fun <T> Matrix<T>.get(position: Position): T = this[position.y][position.x]
+operator fun <T> MutableMatrix<T>.set(position: Position, value: T) {
+    this[position.y][position.x] = value
+}
+
 fun <T> Matrix<T>.getOrNull(x: Int, y: Int) = this.getOrNull(y)?.getOrNull(x)
 
 data class Position(val x: Int, val y: Int) {
